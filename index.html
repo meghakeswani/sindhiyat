@@ -1,1 +1,1120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Sindhiyat: trace a Sindhi surname back to its pre-1947 town, see the life it carried, and meet every lineage again at Cheti Chand.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Sindhiyat</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500;600&family=Tiro+Devanagari+Hindi&display=swap">
+<style>
+/* Layout concept: an archival field-notebook on cream paper, with the Indus as the one thread that runs through every screen; Ajrak bands mark chapter edges; the festival chapter turns to night water. Deliberate single (light) world. */
+:root{
+  color-scheme: light;
+  --paper:#F5EEDC; --paper-2:#ECE1C6; --paper-3:#E2D3B0;
+  --ink:#141C3A; --ink-2:#3A4263; --muted:#6A6A72;
+  --indus:#1C5BB5; --indus-2:#6E9BDB;
+  --madder:#A2321E; --saffron:#D98A1C;
+  --night:#0E1530; --night-2:#18224A; --night-ink:#EFE6CF; --night-muted:#A8ADC4;
+  --line: rgba(20,28,58,.16);
+  --f-display:"Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --f-ui:"Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --f-sindhi:"Noto Naskh Arabic", "Segoe UI", serif;
+  --f-deva:"Tiro Devanagari Hindi", "Nirmala UI", serif;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-ui);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--indus);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sindhi{font-family:var(--f-sindhi);direction:rtl}
+.deva{font-family:var(--f-deva)}
+.mono{font-family:var(--f-mono)}
 
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.brand b{font-family:var(--f-display);font-size:26px;font-weight:700;letter-spacing:.02em}
+.brand span{font-size:17px;color:var(--madder)}
+.nav{display:flex;gap:4px;margin-left:auto;align-items:center}
+.nav a{text-decoration:none;font-size:14px;padding:8px 12px;border-radius:999px;color:var(--ink-2)}
+.nav a[aria-current="page"]{background:var(--paper-2);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .15s,background .2s}
+.btn:active{transform:translateY(1px)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{background:#222c55}
+.btn-line{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
+.btn-line:hover{background:var(--paper-2)}
+.btn-madder{background:var(--madder);color:#FBF4E4}
+.btn-sm{padding:8px 14px;font-size:14px}
+.nav a,.btn{white-space:nowrap}
+@media (max-width:760px){.nav a.hide-s{display:none}.top .wrap{gap:8px}.brand span{display:none}.nav a{padding:8px 8px}}
+@media (max-width:420px){.btn-sm .long{display:none}.brand b{font-size:23px}}
+@media (max-width:560px){
+  .search-box{flex-wrap:wrap;border-radius:22px;padding:8px}
+  .search-box input{flex-basis:100%;padding:8px 12px}
+  .search-box .btn{width:100%}
+  .chip-detect{margin-left:12px}
+  .steps{grid-template-columns:1fr!important}
+  .step{border-right:0!important;border-bottom:1px solid var(--line)}
+}
+
+/* views */
+.view{min-height:60vh}
+
+/* ---------- HOME ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+#river{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:48px;padding-block:72px 64px}
+.hero h1{font-size:clamp(44px,7vw,92px);line-height:.95;font-weight:600}
+.hero h1 em{font-style:italic;color:var(--indus)}
+.hero .lede{max-width:46ch;margin-top:20px;font-size:18px;color:var(--ink-2)}
+.search{margin-top:32px;max-width:620px;position:relative}
+.search-box{display:flex;align-items:center;gap:8px;background:#FFFBF1;border:1.5px solid var(--ink);border-radius:999px;padding:6px 6px 6px 22px;box-shadow:0 10px 30px -18px rgba(20,28,58,.5)}
+.search-box input{flex:1;min-width:0;border:0;background:transparent;font:500 19px var(--f-ui);color:var(--ink);padding:10px 0;outline:none}
+.search-box input::placeholder{color:#8C8A86;font-weight:400}
+.chip-detect{font-family:var(--f-mono);font-size:12px;background:var(--paper-2);color:var(--madder);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.suggest{position:absolute;left:0;right:0;top:calc(100% + 8px);background:#FFFBF1;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 40px -20px rgba(20,28,58,.45);padding:6px;z-index:20;list-style:none;margin:0}
+.suggest li button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:none;border:0;padding:10px 14px;border-radius:10px;text-align:left}
+.suggest li button:hover,.suggest li button.on{background:var(--paper-2)}
+.suggest .nm{font-weight:600}
+.suggest .nm i{font-style:normal;color:var(--madder)}
+.suggest .tag{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.towns{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--ink-2)}
+.towns button{background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px}
+.towns button:hover{border-color:var(--ink)}
+.hero-aside{align-self:end;display:flex;flex-direction:column;gap:14px}
+.ribbon{background:var(--ink);color:var(--paper);border-radius:var(--r);padding:22px;display:grid;gap:8px}
+.ribbon .sindhi{font-size:28px;color:#F3C77A;text-align:left}
+.ribbon p{font-size:14px;color:#D9D4C4}
+.ribbon .deva{font-size:20px}
+.ajrak-band{height:22px;background-image:var(--ajrak);background-size:44px 44px;background-color:var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+.step{padding:28px 22px 30px;border-right:1px solid var(--line)}
+.step:last-child{border-right:0}
+.step .n{font-family:var(--f-mono);font-size:12px;color:var(--madder)}
+.step h3{font-size:28px;margin-top:6px}
+.step p{font-size:14px;color:var(--ink-2);margin-top:6px;max-width:30ch}
+.try{padding-block:56px}
+.try h2{font-size:36px}
+.try-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px}
+.try-card{text-align:left;background:#FFFBF1;border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:10px;transition:transform .2s,border-color .2s}
+.try-card:hover{transform:translateY(-3px);border-color:var(--ink)}
+.try-card .big{font-family:var(--f-display);font-size:40px;font-weight:600;line-height:1}
+.try-card .big i{font-style:normal;color:var(--madder)}
+.try-card .meta{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.try-card p{font-size:14px;color:var(--ink-2)}
+.verse{padding-block:64px;text-align:left}
+.verse blockquote{margin:0;font-family:var(--f-display);font-style:italic;font-size:clamp(28px,3.6vw,44px);line-height:1.15;max-width:24ch}
+.verse cite{display:block;margin-top:14px;font-style:normal;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.verse-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}
+footer{border-top:1px solid var(--line);padding-block:28px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr);padding-block:48px 40px}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step:nth-child(2){border-right:0}
+  .step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .try-grid{grid-template-columns:1fr}
+  .verse-row{grid-template-columns:1fr}
+}
+
+/* ---------- READING ---------- */
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);z-index:40;background:var(--paper);border-bottom:1px solid var(--line)}
+.rail .wrap{display:flex;gap:6px;align-items:center;height:48px;overflow-x:auto}
+.rail a{flex:none;text-decoration:none;font-size:13px;font-family:var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 10px;border-radius:999px}
+.rail a.on{color:var(--paper);background:var(--ink)}
+.rail .sep{flex:none;width:18px;height:1px;background:var(--line)}
+.rail .who{margin-left:auto;flex:none;font-family:var(--f-display);font-size:20px;font-weight:600}
+.chapter{padding-block:64px;border-bottom:1px solid var(--line);scroll-margin-top:120px}
+.ch-head{display:flex;gap:14px;align-items:baseline;margin-bottom:26px}
+.ch-head .eyebrow{color:var(--madder)}
+.decode{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:48px;align-items:end}
+.namebig{font-family:var(--f-display);font-weight:700;font-size:clamp(64px,12vw,168px);line-height:.85;letter-spacing:-.02em;word-break:break-word}
+.namebig i{font-style:normal;color:var(--madder);position:relative}
+.namebig i::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.06em;background:var(--madder);opacity:.5}
+.equation{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:26px;font-size:15px}
+.tok{border:1.5px solid var(--ink);border-radius:10px;padding:8px 12px;background:#FFFBF1}
+.tok small{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tok b{font-family:var(--f-display);font-size:24px;font-weight:600}
+.tok.suf{border-color:var(--madder)}
+.tok.suf b{color:var(--madder)}
+.op{font-family:var(--f-display);font-size:28px;color:var(--muted)}
+.result-line{font-family:var(--f-display);font-size:28px;font-style:italic}
+.side-note{display:grid;gap:14px}
+.side-note p{color:var(--ink-2)}
+.confidence{display:flex;gap:10px;align-items:flex-start;background:var(--paper-2);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--ink-2)}
+.confidence .dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:6px;background:var(--saffron);box-shadow:0 0 0 4px rgba(217,138,28,.2)}
+.place{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+.mapbox{background:#FFFBF1;border:1px solid var(--line);border-radius:var(--r);padding:12px;position:relative}
+.mapbox svg{width:100%;height:auto;display:block}
+.mapcap{font-family:var(--f-mono);font-size:11px;color:var(--muted);padding:6px 8px 2px}
+.place h2{font-size:clamp(40px,5vw,64px);line-height:1}
+.coords{font-family:var(--f-mono);font-size:13px;color:var(--indus);margin-top:10px}
+.place p.body{margin-top:18px;color:var(--ink-2);max-width:52ch}
+.verify{margin-top:26px;border-top:1px dashed var(--line);padding-top:20px}
+.verify h3{font-family:var(--f-ui);font-size:15px;font-weight:600}
+.verify .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.verify .done{margin-top:12px;font-size:14px;color:var(--indus)}
+.verify select{font:inherit;padding:8px 12px;border-radius:999px;border:1.5px solid var(--ink);background:#FFFBF1}
+.life-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#FFFBF1}
+.art{padding:24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:8px;align-content:start;min-width:0}
+.art:nth-child(3n){border-right:0}
+.art:nth-last-child(-n+3){border-bottom:0}
+.art .k{display:flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.art .k svg{width:22px;height:22px;flex:none;stroke:var(--madder);fill:none;stroke-width:1.6}
+.art h3{font-size:28px;line-height:1.05}
+.art p{font-size:14px;color:var(--ink-2)}
+.art .phrase{font-family:var(--f-display);font-style:italic;font-size:20px;color:var(--indus)}
+.art.prompt{background:var(--paper-2)}
+.divider{background:var(--ink);color:var(--paper);position:relative}
+.divider .inner{padding-block:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.divider blockquote{margin:0;font-family:var(--f-display);font-style:italic;font-size:clamp(26px,3.2vw,40px);line-height:1.15}
+.divider cite{display:block;margin-top:12px;font-style:normal;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#B9B6A8}
+.divider p{color:#D9D4C4;font-size:15px;max-width:48ch}
+.waves{display:grid;gap:10px}
+.wave{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;background:none;border:0;padding:6px 0;text-align:left;width:100%}
+.wave .lbl{font-family:var(--f-display);font-size:24px;font-weight:600}
+.wave .lbl small{display:block;font-family:var(--f-mono);font-size:11px;font-weight:400;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.wave svg{width:100%;height:46px;display:block}
+.wave path{fill:none;stroke-width:2.2;stroke:var(--indus-2);transition:stroke .2s}
+.wave[aria-pressed="true"] path{stroke:var(--ink)}
+.wave.yours path,.wave.yours[aria-pressed] path{stroke:var(--madder);stroke-width:3}
+.wave.yours[aria-pressed="true"] path{stroke-width:4}
+.wave-detail{margin-top:18px;background:#FFFBF1;border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.wave-detail div{min-width:0}
+.wave-detail .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.wave-detail p{font-size:14px;margin-top:4px}
+.return-card{background:var(--night);color:var(--night-ink);border-radius:20px;padding:36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:30px;align-items:center;position:relative;overflow:hidden}
+.return-card h2{font-size:clamp(34px,4vw,52px);line-height:1}
+.return-card p{color:var(--night-muted);margin-top:12px;max-width:48ch}
+.return-card .acts{display:grid;gap:10px;justify-items:start}
+.return-card .btn-line{border-color:var(--night-ink);color:var(--night-ink)}
+.return-card .btn-line:hover{background:var(--night-2)}
+.btn-saffron{background:var(--saffron);color:var(--night)}
+@media (max-width:900px){
+  .decode,.place,.divider .inner,.return-card{grid-template-columns:1fr}
+  .life-grid{grid-template-columns:1fr}
+  .art{border-right:0!important;border-bottom:1px solid var(--line)!important}
+  .art:last-child{border-bottom:0!important}
+  .wave{grid-template-columns:110px minmax(0,1fr)}
+  .wave-detail{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ---------- FESTIVAL ---------- */
+.night{background:var(--night);color:var(--night-ink)}
+.night .eyebrow{color:var(--night-muted)}
+.fest-hero{padding-block:64px 24px}
+.fest-hero h1{font-size:clamp(44px,6.4vw,84px);line-height:.95;max-width:16ch}
+.fest-hero h1 em{color:#F3C77A}
+.fest-hero p{margin-top:16px;color:var(--night-muted);max-width:58ch;font-size:17px}
+.platter-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:40px;align-items:center;padding-block:28px 64px}
+.platter{position:relative}
+.platter svg{width:100%;height:auto;display:block}
+.hot{cursor:pointer}
+.hot:focus-visible{outline:none}
+.hot:focus-visible .ring,.hot.on .ring{stroke:#F3C77A;stroke-width:2.5;opacity:1}
+.hot .ring{fill:none;stroke:#F3C77A;stroke-dasharray:4 5;opacity:.0;transition:opacity .2s}
+.hot:hover .ring{opacity:.7}
+.pin-l{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;fill:var(--night-muted)}
+.panel{background:var(--night-2);border:1px solid rgba(239,230,207,.12);border-radius:20px;padding:30px;min-height:330px;display:grid;align-content:start;gap:12px}
+.panel .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#F3C77A}
+.panel h2{font-size:44px;line-height:1}
+.panel .sub{font-family:var(--f-display);font-style:italic;font-size:21px;color:var(--night-muted)}
+.panel p{color:#D8D3C2}
+.panel .list{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.panel .list button{background:transparent;border:1px solid rgba(239,230,207,.25);color:var(--night-ink);border-radius:999px;padding:6px 12px;font-size:13px}
+.panel .list button.on{background:var(--night-ink);color:var(--night)}
+.order{padding-block:56px;border-top:1px solid rgba(239,230,207,.12)}
+.order h2{font-size:40px}
+.order-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+.order-step{border:1px solid rgba(239,230,207,.14);border-radius:var(--r);padding:22px;display:grid;gap:8px}
+.order-step .n{font-family:var(--f-mono);font-size:12px;color:#F3C77A}
+.order-step h3{font-size:30px}
+.order-step p{font-size:14px;color:var(--night-muted)}
+.jyot{padding-block:56px;border-top:1px solid rgba(239,230,207,.12);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.jyot h2{font-size:clamp(34px,4vw,52px);line-height:1}
+.jyot p{color:var(--night-muted);margin-top:12px;max-width:46ch}
+.compass svg{width:100%;height:auto;display:block}
+.compass .city{font-family:var(--f-ui);font-size:14px;fill:var(--night-ink);opacity:.28;transition:opacity .6s}
+.compass.lit .city{opacity:1}
+.compass .ray{stroke:#F3C77A;stroke-width:1;stroke-dasharray:3 5;opacity:.15;transition:opacity .8s}
+.compass.lit .ray{opacity:.6}
+.flame{transform-box:fill-box;transform-origin:50% 100%;opacity:0;transition:opacity .4s}
+.compass.lit .flame{opacity:1;animation:flick 1.6s ease-in-out infinite alternate}
+@keyframes flick{from{transform:scale(1,1)}to{transform:scale(.92,1.08)}}
+.fest-end{padding-block:56px 72px;border-top:1px solid rgba(239,230,207,.12);display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:end}
+.fest-end blockquote{margin:0;font-family:var(--f-display);font-style:italic;font-size:clamp(26px,3vw,38px);max-width:26ch;line-height:1.15}
+.fest-end .btn-line{border-color:var(--night-ink);color:var(--night-ink)}
+@media (max-width:900px){.platter-row,.jyot{grid-template-columns:1fr}.order-grid{grid-template-columns:1fr}}
+
+/* ---------- ARCHIVE ---------- */
+.arch{padding-block:56px}
+.arch h1{font-size:clamp(40px,5.6vw,72px);line-height:1}
+.arch-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;margin-top:30px;align-items:start}
+.town-card{background:#FFFBF1;border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:10px}
+.town-card h2{font-size:44px;line-height:1}
+.town-card .names{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.town-card .names button{background:var(--paper-2);border:0;border-radius:999px;padding:6px 12px;font-size:14px}
+.town-card .names button:hover{background:var(--paper-3)}
+.comm{margin-top:56px}
+.comm h2{font-size:36px}
+.comm-table{margin-top:18px;overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:#FFFBF1}
+.comm-table table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+.comm-table th,.comm-table td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.comm-table thead th{font-family:var(--f-display);font-size:22px;font-weight:600}
+.comm-table tbody th{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;width:150px}
+.comm-table tr:last-child td,.comm-table tr:last-child th{border-bottom:0}
+@media (max-width:900px){.arch-grid{grid-template-columns:1fr}}
+
+/* map */
+.m-land{fill:#EFE4C8;stroke:var(--ink);stroke-width:1.2}
+.m-indus{fill:none;stroke:var(--indus);stroke-width:3.2;stroke-linecap:round}
+.m-indus2{fill:none;stroke:var(--indus-2);stroke-width:8;opacity:.25;stroke-linecap:round}
+.m-town circle{fill:var(--ink)}
+.m-town text,.halo{paint-order:stroke;stroke:#FFFBF1;stroke-width:3.5px;stroke-linejoin:round}
+.m-town text{font-family:var(--f-ui);font-size:11px;fill:var(--ink-2)}
+.m-town.click{cursor:pointer}
+.m-town.click:hover circle{fill:var(--madder)}
+.m-town.sel circle{fill:var(--madder)}
+.m-town.sel text{font-weight:700;fill:var(--ink);font-size:13px}
+.m-pulse{fill:none;stroke:var(--madder);stroke-width:2;animation:pulse 2.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.m-out text{fill:var(--muted)}
+.m-out circle{fill:var(--muted)}
+
+/* modal */
+.scrim{position:fixed;inset:0;background:rgba(14,21,48,.55);z-index:80;display:grid;place-items:center;padding:20px}
+.modal{background:var(--paper);border-radius:20px;max-width:560px;width:100%;max-height:calc(100vh - 40px);overflow:auto;padding:30px;position:relative;box-shadow:0 30px 80px -30px rgba(0,0,0,.6)}
+.modal.wide{max-width:820px}
+.modal h2{font-size:36px;line-height:1.05}
+.modal .x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#FFFBF1;font-size:18px}
+.field{display:grid;gap:6px;margin-top:16px}
+.field label{font-size:14px;font-weight:600}
+.field input,.field select,.field textarea{font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#FFFBF1;color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ink);outline:none}
+.field .hint{font-size:13px;color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:14px}
+.stepper{display:flex;gap:6px;margin-bottom:16px}
+.stepper span{height:4px;flex:1;border-radius:4px;background:var(--paper-3)}
+.stepper span.on{background:var(--ink)}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
+.poster{background:#FFFBF1;border:1px solid var(--line);border-radius:12px;padding:10px}
+.poster svg{width:100%;height:auto;display:block}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:999px;font-size:14px;z-index:90;max-width:calc(100% - 32px)}
+
+/* unknown */
+.unk{padding-block:64px}
+.unk .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;margin-top:20px}
+.unk h2{font-size:clamp(34px,4vw,50px);line-height:1.02}
+.unk .form{background:#FFFBF1;border:1px solid var(--line);border-radius:var(--r);padding:26px}
+@media (max-width:900px){.unk .grid{grid-template-columns:1fr}}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="ajrakP" width="44" height="44" patternUnits="userSpaceOnUse">
+      <rect width="44" height="44" fill="#141C3A"/>
+      <path d="M22 6 L26 18 L38 22 L26 26 L22 38 L18 26 L6 22 L18 18 Z" fill="#A2321E"/>
+      <circle cx="22" cy="22" r="3.2" fill="#F5EEDC"/>
+      <circle cx="0" cy="0" r="3" fill="#F5EEDC"/><circle cx="44" cy="0" r="3" fill="#F5EEDC"/>
+      <circle cx="0" cy="44" r="3" fill="#F5EEDC"/><circle cx="44" cy="44" r="3" fill="#F5EEDC"/>
+    </pattern>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Sindhiyat home"><b>Sindhiyat</b><span class="sindhi">سنڌيت</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#home" data-nav="home">Trace</a>
+      <a href="#cheti-chand" data-nav="cheti-chand">Cheti Chand</a>
+      <a href="#archive" data-nav="archive" class="hide-s">Archive</a>
+      <button class="btn btn-ink btn-sm" data-open="contribute">Add<span class="long">&nbsp;a memory</span></button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="view" id="v-home">
+    <div class="hero">
+      <canvas id="river" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <div>
+          <p class="eyebrow">Sindh, before 1947 · a living archive</p>
+          <h1 style="margin-top:14px">Where did your name begin <em>before 1947?</em></h1>
+          <p class="lede">In 1947 all of Sindh went to Pakistan, so Sindhi Hindus had no home district left to return to. Your surname still holds the address. Type it in and we'll trace where it came from.</p>
+          <form class="search" id="searchForm" autocomplete="off" role="search">
+            <div class="search-box">
+              <label for="q" class="sr" style="position:absolute;left:-9999px">Your surname</label>
+              <input id="q" name="q" placeholder="Enter your surname, e.g. Keswani" aria-autocomplete="list" aria-controls="sugg">
+              <span class="chip-detect" id="detect" hidden></span>
+              <button class="btn btn-ink" type="submit">Trace your origins</button>
+            </div>
+            <ul class="suggest" id="sugg" role="listbox" hidden></ul>
+          </form>
+          <div class="towns" id="townPrompt">No name in mind? Start from a town:</div>
+        </div>
+        <aside class="hero-aside">
+          <div class="ribbon">
+            <span class="eyebrow" style="color:#B9B6A8">The feeling this is for</span>
+            <span class="sindhi">ڪٿي وچ جو</span>
+            <span class="deva">कहीं बीच का</span>
+            <p>“Somewhere in between.” Many young Sindhis grow up without an ancestral town to visit. This is a place to find one.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <div class="ajrak-band" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="steps">
+        <div class="step"><span class="n">01 · Name</span><h3>Decode it</h3><p>We split your surname into its root and its suffix, and tell you what each part means.</p></div>
+        <div class="step"><span class="n">02 · Place</span><h3>Find the town</h3><p>See the pre-1947 district your name points to, then tell us if it matches what your family remembers.</p></div>
+        <div class="step"><span class="n">03 · Life</span><h3>See the life</h3><p>The work, food, dialect and clothes that went with that lineage, and how it rebuilt after 1947.</p></div>
+        <div class="step"><span class="n">04 · Return</span><h3>Meet again</h3><p>Every lineage meets at Cheti Chand. Explore the ritual, then add your family's story.</p></div>
+      </div>
+    </div>
+    <div class="wrap try">
+      <p class="eyebrow">Three fully recorded lineages</p>
+      <h2 style="margin-top:8px">Try one of these names</h2>
+      <div class="try-grid" id="tryGrid"></div>
+    </div>
+    <div class="wrap verse">
+      <div class="verse-row">
+        <div>
+          <blockquote>“Many are the waves, but the water is one.”</blockquote>
+          <cite>Shah Abdul Latif Bhittai · Risalo</cite>
+        </div>
+        <p style="max-width:40ch;color:var(--ink-2);font-size:15px">Surnames here are historical coordinates, not a ranking. We document what was displaced, not the divisions of the past.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- READING -->
+  <section class="view" id="v-read" hidden></section>
+
+  <!-- UNKNOWN -->
+  <section class="view" id="v-unknown" hidden></section>
+
+  <!-- FESTIVAL -->
+  <section class="view night" id="v-fest" hidden></section>
+
+  <!-- ARCHIVE -->
+  <section class="view" id="v-arch" hidden></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Sindhiyat · interactive prototype</span>
+    <span>Map is schematic. Lineage readings are typical patterns, not certainties.</span>
+  </div>
+</footer>
+
+<div id="modalRoot"></div>
+<div id="toastRoot"></div>
+
+<script>
+(function(){
+"use strict";
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// Ajrak band as CSS background
+const ajrakSVG = `<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><rect width='44' height='44' fill='#141C3A'/><path d='M22 6 L26 18 L38 22 L26 26 L22 38 L18 26 L6 22 L18 18 Z' fill='#A2321E'/><circle cx='22' cy='22' r='3.2' fill='#F5EEDC'/><circle cx='0' cy='0' r='3' fill='#F5EEDC'/><circle cx='44' cy='0' r='3' fill='#F5EEDC'/><circle cx='0' cy='44' r='3' fill='#F5EEDC'/><circle cx='44' cy='44' r='3' fill='#F5EEDC'/></svg>`;
+document.documentElement.style.setProperty('--ajrak', `url("data:image/svg+xml,${encodeURIComponent(ajrakSVG)}")`);
+
+/* ---------------- DATA ---------------- */
+const TOWNS = {
+  jacobabad:{n:"Jacobabad", lat:28.28, lon:68.44},
+  shikarpur:{n:"Shikarpur", lat:27.96, lon:68.64, d:"The northern desert gateway. Shikarpuri hundis, promissory notes, were honoured in Bukhara, Samarkand and Baku.", names:["Makhija","Talreja","Kukreja","Juneja"]},
+  sukkur:{n:"Sukkur · Rohri", lat:27.70, lon:68.87, d:"Twin towns facing each other across the Indus, in Upper Sindh. River trade, shops and Lohana households.", names:["Keswani","Ahuja","Makhija"]},
+  larkana:{n:"Larkana", lat:27.56, lon:68.21},
+  moro:{n:"Moro · Sahiti", lat:26.66, lon:68.00, d:"The fertile Sahiti belt of Central Sindh. Landholding farmers and grain, dairy and dry-fruit traders.", names:["Daswani","Jumani","Shivdasani"]},
+  nawabshah:{n:"Nawabshah", lat:26.24, lon:68.41},
+  sehwan:{n:"Sehwan", lat:26.42, lon:67.86},
+  hyderabad:{n:"Hyderabad", lat:25.39, lon:68.37, d:"The political and cultural centre of Central Sindh. Home to the Amil courts and to Bhaiband trading houses with offices across the world.", names:["Advani","Gidwani","Jethmalani","Vaswani","Mirchandani"]},
+  karachi:{n:"Karachi", lat:24.86, lon:67.01},
+  thatta:{n:"Thatta", lat:24.75, lon:67.92, d:"Lower Sindh and the Indus delta. Seafaring, shipbuilding and the Larai trade to the Persian Gulf.", names:["Bhatia","Thadani"]},
+  thar:{n:"Tharparkar", lat:24.74, lon:69.80, d:"The south-eastern desert frontier. Sodha and Chauhan Rajputs, and Bhil and Meghwar craft communities.", names:["Sodha","Chauhan"]},
+  bhag:{n:"Bhag Nari", lat:29.04, lon:67.82, out:true, d:"The Kachhi borderland between Sindh and Balochistan. Traders in spices, dry fruit and livestock.", names:["Gaba","Sajnani"]}
+};
+
+const PATHS = {
+  keswani:{
+    name:"Keswani", root:"Kesw", suf:"ani", ancestor:"Keshav",
+    sufType:"Patronymic suffix", sufMean:"descendant of", sufFrom:"From the Sanskrit ansh, “a part of”. Sindhi ani means “belonging to”.",
+    result:"the family of Keshav",
+    gens:"Names ending in -ani usually go back 5 to 7 generations, to one patriarch whose name became the family's.",
+    town:"sukkur", also:["hyderabad"],
+    region:"Upper Sindh, on the Indus",
+    placeBody:"Most Keswani families recall Sukkur, Rohri and the towns along the river in Upper and Central Sindh. The Indus here was a road as much as a river: boats carried grain, cloth and people downstream to Hyderabad.",
+    community:["Lohana","The largest trading community of Sindh, organised by region rather than strict caste."],
+    work:["Trade by the river","Shops, grain and cloth along the Sukkur–Rohri stretch of the Indus."],
+    food:["Sai bhaji & chawaran","Spinach and dal cooked slowly with greens, served with rice. Dal pakwan for Sunday mornings."],
+    tongue:["Utradi Sindhi","The northern dialect of Sindhi.","Chha haal aahe?","“How are you?”"],
+    attire:["Ajrak","Shawls block-printed in indigo and madder, worn and gifted at every milestone."],
+    after:["Your story goes here","Keswani records after 1947 are thin. Where did your grandparents land, and what did they rebuild?", true],
+    wave:"bhaiband", confidence:"Typical pattern. Keswani families also trace to other towns."
+  },
+  advani:{
+    name:"Advani", root:"Adv", suf:"ani", ancestor:"Diwan Adumal",
+    sufType:"Patronymic suffix", sufMean:"descendant of", sufFrom:"From the Sanskrit ansh, “a part of”. Sindhi ani means “belonging to”.",
+    result:"descendants of Diwan Adumal",
+    gens:"A diwan was a minister or court official. Many Amil names begin with a diwan of the Talpur court.",
+    town:"hyderabad", also:["karachi"],
+    region:"Central Sindh, the Talpur capital",
+    placeBody:"Hyderabad was the capital of the Talpur Mirs and later of British administration in Sindh. Amil families served its courts as scribes, ministers and judges, and kept the region's records.",
+    community:["Amil","From the Persian amal, “administration”: Sindh's educated administrative class."],
+    work:["Courts & records","Scribes, diwans, lawyers and teachers, first under the Talpurs, then under British rule."],
+    food:["Seyal phulka","Leftover rotis slow-cooked in an onion, tomato and coriander base. Refined, everyday home cooking."],
+    tongue:["Vicholi Sindhi","The central dialect, which became standard Sindhi.","Bhali kare aaya","“Welcome, you've done well to come.”"],
+    attire:["Collars & Sufi coats","Early adopters of tailored Western collars, worn with long Sufi-influenced coats and silk turbans."],
+    after:["The education route","Families lost their land but kept their degrees, and rebuilt through law, government and universities in India."],
+    wave:"amil", confidence:"Well documented. Advani appears in Amil family histories across Hyderabad."
+  },
+  makhija:{
+    name:"Makhija", root:"Makhi", suf:"ja", ancestor:"Makhi",
+    sufType:"Possessive suffix", sufMean:"of / born of", sufFrom:"From the Sanskrit root jan, “to be born”. Common in northern Sindhi and Seraiki.",
+    result:"born of the house of Makhi",
+    gens:"The -ja ending is a northern marker. It usually points to Upper Sindh and the riverine Seraiki belt.",
+    town:"shikarpur", also:["sukkur","nawabshah"],
+    region:"Upper Sindh, the desert gateway",
+    placeBody:"Shikarpur stood where caravan routes left the Indus plain for the Bolan Pass. Its merchant bankers financed trade from Sindh to Central Asia, and their paper was honoured in markets thousands of kilometres away.",
+    community:["Utradi Lohana","Northern merchant households, linked to Shikarpur and Nawabshah."],
+    work:["Hundi banking","Merchant bankers and caravan traders. A hundi was a promissory note that worked across empires."],
+    food:["Koki","A thick, spiced flatbread that keeps for days. It was made for traders on the road."],
+    tongue:["Utradi & Seraiki","Northern Sindhi, mixed with the Seraiki of the river belt.","Shah-jog","A hundi payable only to a person of good standing."],
+    attire:["Dhoti, kurta & gold","Traditional dhoti and kurta. Heavy gold jewellery, which kept the family's savings portable."],
+    after:["The commerce route","Families started again from refugee stalls and built wholesale textile, export and retail businesses."],
+    wave:"bhaiband", confidence:"Typical pattern. Some Makhija families also trace to Nawabshah."
+  }
+};
+
+const PARTIAL = {
+  gidwani:{ancestor:"Diwan Gidumal", town:"hyderabad"}, jethmalani:{ancestor:"Jethmal", town:"hyderabad"},
+  vaswani:{ancestor:"Vasu", town:"hyderabad"}, mirchandani:{ancestor:"Mirchand", town:"hyderabad"},
+  hiranandani:{ancestor:"Hiranand", town:"hyderabad"}, thadani:{ancestor:"Thadomal", town:"thatta"},
+  lakhani:{ancestor:"Lakho", town:"hyderabad"}, juneja:{ancestor:"Juna", town:"shikarpur"},
+  ahuja:{ancestor:"Ahu", town:"sukkur"}, kukreja:{ancestor:"Kukre", town:"shikarpur"},
+  talreja:{ancestor:"Talrejo", town:"shikarpur"}, nagpal:{ancestor:null, town:"shikarpur", mean:"keeper of the serpent (treasury)"},
+  kathpal:{ancestor:null, town:"shikarpur", mean:"keeper of timber"}, bhatia:{ancestor:null, town:"thatta"},
+  chawla:{ancestor:null, town:"sukkur"}
+};
+
+const WAVES = {
+  amil:{n:"Amil", s:"Administrators", home:"Hyderabad", work:"Scribes, diwans, lawyers, teachers", food:"Seyal, slow-cooked at home", after:"Rebuilt through education"},
+  bhaiband:{n:"Bhaiband", s:"Merchants", home:"Hyderabad & Shikarpur", work:"Global trade, hundi banking", food:"Koki and dry snacks for travel", after:"Rebuilt through commerce"},
+  sahiti:{n:"Sahiti", s:"Farmers & local traders", home:"Moro, Naushahro Feroze", work:"Land, grain, dairy, shops", food:"Bhee (lotus stem), seasonal greens", after:"Small business plus education"}
+};
+
+const SUFFIX = [
+  {re:/ani$/i, suf:"ani", type:"Patronymic suffix", mean:"descendant of", from:"From the Sanskrit ansh, “a part of”.", region:"Central & Lower Sindh: Hyderabad, Karachi, Sehwan", town:"hyderabad"},
+  {re:/(ja)$/i, suf:"ja", type:"Possessive suffix", mean:"of / born of", from:"From the Sanskrit root jan, “to be born”.", region:"Upper Sindh: Sukkur, Shikarpur, Jacobabad", town:"shikarpur"},
+  {re:/pal$/i, suf:"pal", type:"Title suffix", mean:"guardian / keeper of", from:"From the Sanskrit pala, “protector”.", region:"Northern Sindh and the Bolan Pass trade routes", town:"shikarpur"},
+  {re:/(puri|badi|i)$/i, suf:null, type:"Place suffix", mean:"of a place", from:"-i often marks the town a family came from, e.g. Mirpuri, Khudabadi.", region:"Depends on the town in the name", town:null}
+];
+function decode(name){
+  const clean = name.trim();
+  for (const s of SUFFIX){
+    const m = clean.match(s.re);
+    if (m){ const suf = s.suf || m[1]; return {...s, suf, root: clean.slice(0, clean.length - suf.length)}; }
+  }
+  return {suf:null, type:"Whole-word name", mean:"an occupation, place or clan used as it is", from:"Names such as Bhatia, Chawla or Dewan keep an old occupational, geographic or clan word without a suffix.", region:"Across Sindh", town:null, root:clean};
+}
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
+/* ---------------- MAP ---------------- */
+const P = (lat, lon) => [ ((lon-66.4)/4.9)*360+22, ((29.3-lat)/5.8)*440+20 ];
+const OUTLINE = [[28.62,69.10],[28.45,69.65],[28.05,69.95],[27.85,70.45],[27.55,70.68],[27.10,70.45],[26.65,70.20],[26.20,70.10],[25.70,70.62],[25.35,70.90],[24.95,71.10],[24.45,71.05],[24.25,70.55],[24.30,70.10],[24.05,69.50],[23.75,68.75],[23.95,68.10],[24.25,67.45],[24.65,67.20],[24.85,66.70],[25.30,66.85],[25.60,67.15],[26.10,67.25],[26.60,67.30],[27.00,67.50],[27.50,67.60],[27.90,67.80],[28.20,67.95],[28.45,68.30],[28.60,68.70]];
+const INDUS = [[28.45,69.70],[28.20,69.30],[27.95,69.05],[27.70,68.87],[27.35,68.55],[27.00,68.30],[26.60,68.05],[26.30,67.90],[25.90,68.05],[25.40,68.33],[25.00,68.20],[24.60,67.95],[24.20,67.55],[23.95,67.35]];
+function smooth(pts){
+  const p = pts.map(([a,b])=>P(a,b));
+  let d = `M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+  for (let i=1;i<p.length;i++){ const [x0,y0]=p[i-1],[x1,y1]=p[i]; d += ` Q${x0.toFixed(1)},${y0.toFixed(1)} ${((x0+x1)/2).toFixed(1)},${((y0+y1)/2).toFixed(1)}`; }
+  const l = p[p.length-1]; return d + ` L${l[0].toFixed(1)},${l[1].toFixed(1)}`;
+}
+const outlineD = (() => { const p = OUTLINE.map(([a,b])=>P(a,b)); return 'M'+p.map(q=>q.map(v=>v.toFixed(1)).join(',')).join(' L')+' Z'; })();
+const indusD = smooth(INDUS);
+function mapSVG({sel=null, also=[], clickable=false, id="map"}={}){
+  let towns = '';
+  for (const [k,t] of Object.entries(TOWNS)){
+    const [x,y] = P(t.lat,t.lon);
+    const isSel = k===sel, isAlso = also.includes(k);
+    const left = ["karachi","sehwan","larkana","jacobabad","bhag","moro"].includes(k);
+    const tx = left ? x-8 : x+8, anchor = left ? 'end':'start';
+    const dy = k==='sehwan' ? 8 : (k==='moro' ? -4 : (k==='jacobabad' ? -4 : (k==='shikarpur' ? -3 : 0)));
+    towns += `<g class="m-town${isSel?' sel':''}${t.out?' m-out':''}${clickable?' click':''}" ${clickable?`data-town="${k}" tabindex="0" role="button" aria-label="${t.n}"`:''}>
+      ${isSel?`<circle class="m-pulse" cx="${x}" cy="${y}" r="10"/>`:''}
+      ${isAlso?`<circle cx="${x}" cy="${y}" r="9" style="fill:none;stroke:var(--madder);stroke-dasharray:2 3"/>`:''}
+      <circle cx="${x}" cy="${y}" r="${isSel?6:3.6}"/>
+      <text x="${tx}" y="${y+4+dy}" text-anchor="${anchor}">${t.n}</text></g>`;
+  }
+  return `<svg viewBox="0 0 400 480" role="img" aria-label="Schematic map of pre-1947 Sindh${sel?`, highlighting ${TOWNS[sel].n}`:''}">
+    <path class="m-land" d="${outlineD}"/>
+    <path class="m-indus2" d="${indusD}"/><path class="m-indus" d="${indusD}"/>
+    <text class="halo" x="${P(26.78,68.42)[0]}" y="${P(26.78,68.42)[1]}" style="font:italic 600 16px var(--f-display);fill:var(--indus)" transform="rotate(-54 ${P(26.78,68.42).join(' ')})">Indus</text>
+    <text x="${P(23.85,66.6)[0]}" y="${P(23.85,66.6)[1]}" style="font:11px var(--f-mono);fill:var(--muted);letter-spacing:.12em">ARABIAN SEA</text>
+    <text x="${P(25.9,70.9)[0]}" y="${P(25.9,70.9)[1]}" style="font:11px var(--f-mono);fill:var(--muted);letter-spacing:.12em" text-anchor="middle">THAR</text>
+    ${towns}
+  </svg>`;
+}
+const coordStr = t => `${Math.abs(t.lat).toFixed(2)}° N  ${t.lon.toFixed(2)}° E`;
+
+/* ---------------- ICONS ---------------- */
+const IC = {
+  community:'<svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20c0-3 3-5 6-5s6 2 6 5M12 20c0-3 2-5 4-5s6 2 6 5"/></svg>',
+  work:'<svg viewBox="0 0 24 24"><path d="M3 18c3-2 6-2 9 0s6 2 9 0"/><path d="M6 15l2-8h8l2 8"/><path d="M12 3v4"/></svg>',
+  food:'<svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="9" ry="4"/><path d="M5 12c1-4 4-6 7-6s6 2 7 6"/></svg>',
+  tongue:'<svg viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>',
+  attire:'<svg viewBox="0 0 24 24"><path d="M8 3l4 3 4-3 5 4-3 3v11H6V10L3 7z"/></svg>',
+  after:'<svg viewBox="0 0 24 24"><path d="M3 12h14"/><path d="M13 7l5 5-5 5"/><path d="M21 4v16"/></svg>'
+};
+
+/* ---------------- HOME ---------------- */
+const tryGrid = $('#tryGrid');
+tryGrid.innerHTML = Object.entries(PATHS).map(([k,p]) => `
+  <button class="try-card" data-go="${k}">
+    <span class="big">${esc(p.root)}<i>${esc(p.suf)}</i></span>
+    <span class="meta">-${p.suf} · ${esc(p.sufMean)} · ${esc(TOWNS[p.town].n)}</span>
+    <p>${esc(p.community[0])}: ${esc(p.work[0].toLowerCase())}.</p>
+  </button>`).join('');
+const townPrompt = $('#townPrompt');
+["hyderabad","shikarpur","sukkur","thatta","moro"].forEach(k=>{
+  const b=document.createElement('button'); b.type='button'; b.textContent=TOWNS[k].n; b.dataset.town=k; townPrompt.appendChild(b);
+});
+
+const ALL_NAMES = [...Object.values(PATHS).map(p=>p.name), ...Object.keys(PARTIAL).map(cap)];
+const q = $('#q'), sugg = $('#sugg'), detect = $('#detect');
+let activeIdx = -1;
+function renderSuggest(){
+  const v = q.value.trim();
+  if (v.length >= 3){ const d = decode(v); detect.hidden = !d.suf; if (d.suf) detect.textContent = `-${d.suf} · ${d.mean}`; } else detect.hidden = true;
+  if (!v){ sugg.hidden = true; return; }
+  const list = ALL_NAMES.filter(n => n.toLowerCase().startsWith(v.toLowerCase())).slice(0,6);
+  if (!list.length){ sugg.hidden = true; return; }
+  activeIdx = -1;
+  sugg.innerHTML = list.map(n => { const d = decode(n); const full = !!PATHS[n.toLowerCase()];
+    return `<li role="option"><button type="button" data-name="${n}"><span class="nm">${esc(d.suf? n.slice(0,n.length-d.suf.length):n)}<i>${esc(d.suf||'')}</i></span><span class="tag">${full?'Full record':'Partial record'}</span></button></li>`; }).join('');
+  sugg.hidden = false;
+}
+q.addEventListener('input', renderSuggest);
+q.addEventListener('keydown', e => {
+  const items = $$('button', sugg); if (sugg.hidden || !items.length) return;
+  if (e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); activeIdx = (activeIdx + (e.key==='ArrowDown'?1:-1) + items.length) % items.length; items.forEach((b,i)=>b.classList.toggle('on',i===activeIdx)); }
+  if (e.key==='Enter' && activeIdx>=0){ e.preventDefault(); trace(items[activeIdx].dataset.name); }
+  if (e.key==='Escape') sugg.hidden = true;
+});
+sugg.addEventListener('click', e => { const b = e.target.closest('button[data-name]'); if (b) trace(b.dataset.name); });
+document.addEventListener('click', e => { if (!e.target.closest('.search')) sugg.hidden = true; });
+$('#searchForm').addEventListener('submit', e => { e.preventDefault(); const v = q.value.trim(); if (!v){ q.focus(); toast('Type a surname to begin, e.g. Keswani.'); return;} trace(v); });
+
+let current = null; // {kind:'path'|'unknown', key, name}
+function trace(name){
+  sugg.hidden = true;
+  const key = name.trim().toLowerCase().replace(/[^a-z]/g,'');
+  if (!key){ toast('Use letters only, e.g. Advani.'); return; }
+  if (PATHS[key]) { location.hash = key; return; }
+  current = {kind:'unknown', name: cap(key)};
+  if (location.hash === '#unrecorded') route(); else location.hash = 'unrecorded';
+}
+
+/* ---------------- READING ---------------- */
+function renderRead(key){
+  const p = PATHS[key]; const t = TOWNS[p.town]; const w = p.wave;
+  const life = [
+    ['community', 'Community', p.community],
+    ['work', 'Work', p.work],
+    ['food', 'Kitchen', p.food],
+    ['tongue', 'Tongue', p.tongue],
+    ['attire', 'Wardrobe', p.attire],
+    ['after', 'After 1947', p.after]
+  ];
+  $('#v-read').innerHTML = `
+  <div class="rail"><div class="wrap">
+    <a href="#ch-name" data-rail="ch-name">01 Name</a><span class="sep"></span>
+    <a href="#ch-place" data-rail="ch-place">02 Place</a><span class="sep"></span>
+    <a href="#ch-life" data-rail="ch-life">03 Life</a><span class="sep"></span>
+    <a href="#ch-return" data-rail="ch-return">04 Return</a>
+    <span class="who">${esc(p.name)}</span>
+  </div></div>
+
+  <div class="wrap chapter" id="ch-name">
+    <div class="ch-head"><span class="eyebrow">01 · Name</span><span class="eyebrow">What your surname is made of</span></div>
+    <div class="decode">
+      <div>
+        <div class="namebig" aria-label="${esc(p.name)}">${esc(p.root)}<i>${esc(p.suf)}</i></div>
+        <div class="equation" aria-label="Decoding">
+          <span class="tok"><small>Root · ancestor</small><b>${esc(p.ancestor)}</b></span>
+          <span class="op">+</span>
+          <span class="tok suf"><small>${esc(p.sufType)}</small><b>-${esc(p.suf)}</b></span>
+          <span class="op">=</span>
+          <span class="result-line">${esc(p.result)}</span>
+        </div>
+      </div>
+      <div class="side-note">
+        <p><b>-${esc(p.suf)}</b> means “${esc(p.sufMean)}”. ${esc(p.sufFrom)}</p>
+        <p>${esc(p.gens)}</p>
+        <div class="confidence"><span class="dot" aria-hidden="true"></span><span>${esc(p.confidence)} Names were never registered, so we show the most common reading and ask you to confirm it.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap chapter" id="ch-place">
+    <div class="ch-head"><span class="eyebrow">02 · Place</span><span class="eyebrow">Where it points, before 1947</span></div>
+    <div class="place">
+      <div class="mapbox">${mapSVG({sel:p.town, also:p.also})}<div class="mapcap">Schematic map of Sindh, c. 1947. Solid pin = most common origin; dashed rings = also recorded.</div></div>
+      <div>
+        <p class="eyebrow">${esc(p.region)}</p>
+        <h2 style="margin-top:8px">${esc(t.n)}</h2>
+        <div class="coords">${coordStr(t)}</div>
+        <p class="body">${esc(p.placeBody)}</p>
+        <div class="verify" id="verify">
+          <h3>Does this match what your family says?</h3>
+          <div class="row">
+            <button class="btn btn-ink btn-sm" data-verify="yes">Yes, that's right</button>
+            <button class="btn btn-line btn-sm" data-verify="no">We were from somewhere else</button>
+            <button class="btn btn-line btn-sm" data-verify="unsure">No one ever said</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap chapter" id="ch-life">
+    <div class="ch-head"><span class="eyebrow">03 · Life</span><span class="eyebrow">What came with the name</span></div>
+    <div class="life-grid">
+      ${life.map(([ic,k,v]) => `
+        <div class="art${v[2]===true?' prompt':''}">
+          <span class="k">${IC[ic]}${k}</span>
+          <h3>${esc(v[0])}</h3>
+          <p>${esc(v[1])}</p>
+          ${ic==='tongue'?`<span class="phrase">“${esc(v[2])}”</span><p>${esc(v[3])}</p>`:''}
+          ${v[2]===true?`<button class="btn btn-ink btn-sm" data-open="contribute" style="justify-self:start">Record your family's story</button>`:''}
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div class="divider"><div class="ajrak-band" aria-hidden="true"></div><div class="wrap inner">
+    <div><blockquote>“Echo and voice are one and the same; only in the listening do they seem two.”</blockquote><cite>Shah Abdul Latif Bhittai · Sur Kalyan</cite></div>
+    <p>Amils, Bhaibands, Sahitis and many other communities lived different lives on the same river. Your lineage is one of these waves. None ranks above another.</p>
+  </div></div>
+
+  <div class="wrap chapter">
+    <div class="ch-head"><span class="eyebrow">Many waves</span><span class="eyebrow">Your lineage beside the others</span></div>
+    <div class="waves" id="waves">
+      ${Object.entries(WAVES).map(([k,v],i) => `
+        <button class="wave${k===w?' yours':''}" data-wave="${k}" aria-pressed="${k===w}">
+          <span class="lbl">${v.n}<small>${k===w?'Closest to yours':v.s}</small></span>
+          <svg viewBox="0 0 600 46" preserveAspectRatio="none" aria-hidden="true"><path d="${wavePath(i)}"/></svg>
+        </button>`).join('')}
+    </div>
+    <div class="wave-detail" id="waveDetail"></div>
+  </div>
+
+  <div class="wrap chapter" id="ch-return" style="border-bottom:0">
+    <div class="return-card">
+      <div>
+        <span class="eyebrow" style="color:var(--night-muted)">04 · Return</span>
+        <h2 style="margin-top:10px">Every lineage meets again at Cheti Chand.</h2>
+        <p>Different towns, different work, the same river. On the Sindhi new year, every family carries the same offering back to the water.</p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-saffron" href="#cheti-chand">Follow the river to Cheti Chand</a>
+        <button class="btn btn-line" data-open="poster">Save the Cartography of ${esc(p.name)}</button>
+      </div>
+    </div>
+  </div>`;
+  setWave(w);
+  observeRail();
+}
+function wavePath(i){
+  const amp = [9,13,7][i], f = [2.2,3,1.6][i], ph = i*1.3; let d='';
+  for (let x=0;x<=600;x+=10){ const y = 23 + amp*Math.sin((x/600)*Math.PI*2*f + ph); d += (x?' L':'M')+x+','+y.toFixed(1); }
+  return d;
+}
+function setWave(k){
+  const v = WAVES[k];
+  $$('#waves .wave').forEach(b=>b.setAttribute('aria-pressed', b.dataset.wave===k));
+  $('#waveDetail').innerHTML = `<div><span class="k">Home towns</span><p>${v.home}</p></div><div><span class="k">Work</span><p>${v.work}</p></div><div><span class="k">Kitchen</span><p>${v.food}</p></div><div><span class="k">After 1947</span><p>${v.after}</p></div>`;
+}
+let railObs;
+function observeRail(){
+  if (railObs) railObs.disconnect();
+  const links = $$('[data-rail]');
+  links[0] && links[0].classList.add('on');
+  if (!('IntersectionObserver' in window)) return;
+  railObs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting){ links.forEach(l=>l.classList.toggle('on', l.dataset.rail===e.target.id)); } }); }, {rootMargin:'-45% 0px -50% 0px'});
+  ['ch-name','ch-place','ch-life','ch-return'].forEach(id => { const el = document.getElementById(id); el && railObs.observe(el); });
+}
+
+/* ---------------- UNKNOWN ---------------- */
+function renderUnknown(){
+  if (!current){ location.hash = 'home'; return; }
+  const name = current.name, d = decode(name), part = PARTIAL[name.toLowerCase()];
+  const town = part ? part.town : d.town;
+  const meaning = part && part.mean ? part.mean : (d.suf ? `${d.mean} ${part && part.ancestor ? part.ancestor : '“'+cap(d.root)+'…”'}` : d.mean);
+  $('#v-unknown').innerHTML = `
+  <div class="wrap unk">
+    <span class="eyebrow" style="color:var(--madder)">${part ? 'Partial record' : 'Not yet in the archive'}</span>
+    <div class="grid">
+      <div>
+        <div class="namebig" style="font-size:clamp(56px,9vw,120px)">${esc(d.suf ? name.slice(0, name.length-d.suf.length) : name)}${d.suf?`<i>${esc(d.suf)}</i>`:''}</div>
+        <div class="equation">
+          ${d.suf?`<span class="tok"><small>Root</small><b>${esc(part && part.ancestor ? part.ancestor : name.slice(0, name.length-d.suf.length))}</b></span><span class="op">+</span><span class="tok suf"><small>${esc(d.type)}</small><b>-${esc(d.suf)}</b></span><span class="op">=</span>`:''}
+          <span class="result-line">${esc(meaning)}</span>
+        </div>
+        <p style="margin-top:22px;color:var(--ink-2);max-width:52ch">${esc(d.from)} Names like this usually point to <b>${esc(d.region)}</b>.</p>
+        ${town?`<div class="mapbox" style="margin-top:22px;max-width:420px">${mapSVG({sel:town})}<div class="mapcap">A likely region based on the suffix alone. Your family's memory matters more.</div></div>`:''}
+      </div>
+      <div>
+        <h2>Records for ${esc(name)} are still being recovered.</h2>
+        <p style="margin-top:12px;color:var(--ink-2)">What towns or stories did your grandparents pass down? Two minutes of what you remember helps the next ${esc(name)} who searches.</p>
+        <div class="form" style="margin-top:22px">${contributeForm(name, true)}</div>
+      </div>
+    </div>
+  </div>`;
+  bindContribute($('#v-unknown .form'), true);
+}
+
+/* ---------------- FESTIVAL ---------------- */
+const RITUAL = {
+  baharana:{k:"The platter", n:"Baharana Sahib", s:"Life held by the river", p:"An ornate bronze or silver platter that carries Jhulelal's offering. Everything on it stands for a life sustained by water."},
+  modak:{k:"At the centre", n:"Modak · Kumbh", s:"The deity on earth", p:"A cone of kneaded wheat flour, marked with vermilion and studded with cardamom and cloves. It is the earthly form of the deity."},
+  misri:{k:"Around the modak", n:"Misri", s:"Sweetness shared", p:"Crystals of sugar candy placed around the modak, for purity and for a community that lives in harmony."},
+  jyot:{k:"At the front", n:"Akhand Jyot", s:"A flame with four wicks", p:"Lit with ghee or oil, its four wicks point north, south, east and west. Wherever the diaspora settled, the light reaches."},
+  sesha:{k:"Prasad", n:"Sesha", s:"Strength and harvest", p:"Boiled, spiced black chickpeas for endurance, served with sweet saffron rice (tahiri) for a golden harvest."}
+};
+function renderFest(){
+  const who = current && current.kind==='path' ? PATHS[current.key].name : null;
+  $('#v-fest').innerHTML = `
+  <div class="wrap fest-hero">
+    <span class="eyebrow">Cheti Chand · the Sindhi new year</span>
+    <h1 style="margin-top:12px">${who ? `${esc(who)}, every thread returns <em>to the water.</em>` : `Every thread returns <em>to the water.</em>`}</h1>
+    <p>Cheti Chand marks the birth of Jhulelal, a form of Varuna, the god of water. Families who lived far apart, from the Amil courts to the Shikarpur counting houses, carry the same platter to the river. Tap each offering to read what it means.</p>
+  </div>
+  <div class="wrap platter-row">
+    <div class="platter">${platterSVG()}</div>
+    <div class="panel" id="ritualPanel" aria-live="polite"></div>
+  </div>
+  <div class="wrap order">
+    <span class="eyebrow">The evening, in order</span>
+    <h2 style="margin-top:8px">From plea to procession</h2>
+    <div class="order-grid">
+      <div class="order-step"><span class="n">01</span><h3>Pallav</h3><p>Devotees hold the hem of their garment in cupped hands and sing together: a shared plea for protection.</p></div>
+      <div class="order-step"><span class="n">02</span><h3>Chej</h3><p>A circle dance with wooden sticks to dhol and cymbals. Its rhythm follows the rise and fall of the tide.</p></div>
+      <div class="order-step"><span class="n">03</span><h3>Visarjan</h3><p>The Baharana Sahib is carried to a river or the sea and immersed, returning what was made back to the water.</p></div>
+    </div>
+  </div>
+  <div class="wrap jyot">
+    <div>
+      <span class="eyebrow">Four wicks, four directions</span>
+      <h2 style="margin-top:8px">Light the jyot for wherever your family landed.</h2>
+      <p>After 1947, Sindhi families settled across India and the world. The four wicks are a promise that the light reaches every direction.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+        <button class="btn btn-saffron" id="lightBtn">Light the jyot</button>
+        <button class="btn btn-line" style="border-color:var(--night-ink);color:var(--night-ink)" data-open="contribute">Add where your family settled</button>
+      </div>
+    </div>
+    <div class="compass" id="compass">${compassSVG()}</div>
+  </div>
+  <div class="wrap fest-end">
+    <blockquote>“Many are the waves, but the water is one; go and ask the ocean what the secret of the foam is.”</blockquote>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn btn-line" href="#home">Trace another name</a>
+      <button class="btn btn-saffron" data-open="contribute">Add your family's story</button>
+    </div>
+  </div>`;
+  setRitual('baharana');
+  $('#lightBtn').addEventListener('click', () => { const c = $('#compass'); const lit = c.classList.toggle('lit'); $('#lightBtn').textContent = lit ? 'Let it rest' : 'Light the jyot'; });
+}
+function setRitual(k){
+  const r = RITUAL[k];
+  $$('.hot').forEach(h=>{ h.classList.toggle('on', h.dataset.item===k); h.setAttribute('aria-pressed', h.dataset.item===k); });
+  $('#ritualPanel').innerHTML = `<span class="k">${r.k}</span><h2>${r.n}</h2><span class="sub">${r.s}</span><p>${r.p}</p>
+    <div class="list">${Object.entries(RITUAL).map(([kk,v])=>`<button data-item="${kk}" class="${kk===k?'on':''}">${v.n.split(' ·')[0]}</button>`).join('')}</div>`;
+}
+function platterSVG(){
+  // crystals
+  let misri=''; const cr=[[-52,40],[-36,58],[-14,66],[14,66],[36,58],[52,40],[-60,18],[60,18]];
+  cr.forEach(([dx,dy],i)=>{ misri += `<rect x="${300+dx-5}" y="${262+dy-5}" width="10" height="10" transform="rotate(${20+i*13} ${300+dx} ${262+dy})" fill="#F4EEE0" stroke="#C9BFA6" stroke-width=".8"/>`; });
+  let cloves=''; for(let r=0;r<5;r++){ for(let c=0;c<=r;c++){ const x=300-r*9+c*18, y=200+r*16; cloves += `<circle cx="${x}" cy="${y}" r="2.6" fill="#5A2A1A"/>`; } }
+  let rim=''; for(let i=0;i<36;i++){ const a=i/36*Math.PI*2; rim += `<circle cx="${(300+Math.cos(a)*222).toFixed(1)}" cy="${(280+Math.sin(a)*150).toFixed(1)}" r="3.2" fill="#E9C46A"/>`; }
+  return `<svg viewBox="0 0 600 520" role="group" aria-label="Interactive Baharana Sahib platter">
+    <defs>
+      <radialGradient id="brass" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#E9C46A"/><stop offset=".7" stop-color="#B9862B"/><stop offset="1" stop-color="#7A5419"/></radialGradient>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#F3C77A" stop-opacity=".55"/><stop offset="1" stop-color="#F3C77A" stop-opacity="0"/></radialGradient>
+    </defs>
+    <ellipse cx="300" cy="300" rx="280" ry="190" fill="url(#glow)"/>
+    <g class="hot" data-item="baharana" tabindex="0" role="button" aria-label="Baharana Sahib, the platter">
+      <ellipse cx="300" cy="292" rx="238" ry="164" fill="#5A3B12"/>
+      <ellipse cx="300" cy="280" rx="238" ry="164" fill="url(#brass)"/>
+      <ellipse cx="300" cy="280" rx="196" ry="132" fill="#C99A3E" stroke="#8C6422" stroke-width="1.5"/>
+      ${rim}
+      <ellipse class="ring" cx="300" cy="280" rx="250" ry="176"/>
+    </g>
+    <g class="hot" data-item="sesha" tabindex="0" role="button" aria-label="Sesha, the prasad">
+      <ellipse cx="170" cy="300" rx="52" ry="30" fill="#7A5419"/><ellipse cx="170" cy="294" rx="48" ry="25" fill="#4B2E1A"/>
+      ${Array.from({length:14},(_,i)=>`<circle cx="${150+(i%7)*7}" cy="${288+Math.floor(i/7)*9}" r="3.4" fill="#2A1A10"/>`).join('')}
+      <ellipse cx="430" cy="300" rx="52" ry="30" fill="#7A5419"/><ellipse cx="430" cy="294" rx="48" ry="25" fill="#E7A93A"/>
+      <ellipse cx="430" cy="290" rx="34" ry="14" fill="#F3C77A"/>
+      <ellipse class="ring" cx="300" cy="298" rx="200" ry="44"/>
+    </g>
+    <g class="hot" data-item="misri" tabindex="0" role="button" aria-label="Misri, the sugar crystals">
+      ${misri}
+      <ellipse class="ring" cx="300" cy="310" rx="80" ry="30"/>
+    </g>
+    <g class="hot" data-item="modak" tabindex="0" role="button" aria-label="Modak, the flour cone">
+      <path d="M300 168 L352 290 Q300 306 248 290 Z" fill="#EBD9B0" stroke="#B89A5E" stroke-width="1.5"/>
+      <path d="M300 168 L312 196 L288 196 Z" fill="#C0392B"/>
+      ${cloves}
+      <path d="M262 262 Q300 274 338 262" stroke="#C0392B" stroke-width="3" fill="none"/>
+      <ellipse class="ring" cx="300" cy="238" rx="66" ry="82"/>
+    </g>
+    <g class="hot" data-item="jyot" tabindex="0" role="button" aria-label="Akhand Jyot, the four-wick lamp">
+      <path d="M252 392 Q300 432 348 392 L340 384 Q300 410 260 384 Z" fill="#B9862B" stroke="#7A5419"/>
+      <ellipse cx="300" cy="386" rx="44" ry="10" fill="#7A5419"/>
+      ${[-24,-8,8,24].map(x=>`<path d="M${300+x} 382 q-6 -14 0 -26 q6 12 0 26z" fill="#F3C77A"/><path d="M${300+x} 380 q-3 -8 0 -15 q3 7 0 15z" fill="#FFF3D6"/>`).join('')}
+      <ellipse class="ring" cx="300" cy="380" rx="62" ry="36"/>
+    </g>
+    <text class="pin-l" x="300" y="500" text-anchor="middle">Tap an offering · Baharana Sahib</text>
+  </svg>`;
+}
+function compassSVG(){
+  const cities = [["Ulhasnagar",-90],["Mumbai",-60],["Ahmedabad",-120],["Jaipur",-150],["Delhi",-30],["Pune",0],["Dubai",30],["Hong Kong",60],["Lagos",90],["Jakarta",120],["London",150],["Manila",180]];
+  const cx=300, cy=230;
+  const rays = cities.map(([n,a])=>{ const r=a*Math.PI/180, x=cx+Math.cos(r)*190, y=cy+Math.sin(r)*160;
+    const anchor = Math.cos(r) > .3 ? 'start' : (Math.cos(r) < -.3 ? 'end' : 'middle');
+    return `<line class="ray" x1="${cx}" y1="${cy}" x2="${(cx+Math.cos(r)*170).toFixed(1)}" y2="${(cy+Math.sin(r)*142).toFixed(1)}"/><text class="city" x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="${anchor}">${n}</text>`; }).join('');
+  const dirs = [["N",0,-1],["E",1,0],["S",0,1],["W",-1,0]].map(([l,dx,dy])=>`<text x="${cx+dx*58}" y="${cy+dy*58+5}" text-anchor="middle" style="font:12px var(--f-mono);fill:var(--night-muted)">${l}</text>`).join('');
+  const flames = [[0,-1],[1,0],[0,1],[-1,0]].map(([dx,dy],i)=>{ const x=cx+dx*26, y=cy+dy*26, rot=[0,90,180,270][i]; return `<g transform="rotate(${rot} ${x} ${y})"><path class="flame" d="M${x} ${y+6} q-7 -14 0 -26 q7 12 0 26z" fill="#F3C77A" style="animation-delay:${i*.2}s"/></g>`; }).join('');
+  return `<svg viewBox="0 0 600 460" role="img" aria-label="Four-wick lamp with lines to cities where Sindhi families settled">
+    <circle cx="${cx}" cy="${cy}" r="44" fill="#18224A" stroke="rgba(239,230,207,.3)"/>
+    ${rays}${dirs}
+    <circle cx="${cx}" cy="${cy}" r="12" fill="#B9862B"/>
+    ${flames}
+  </svg>`;
+}
+
+/* ---------------- ARCHIVE ---------------- */
+let archTown = 'hyderabad';
+function renderArch(){
+  $('#v-arch').innerHTML = `
+  <div class="wrap arch">
+    <span class="eyebrow">Explore by town</span>
+    <h1 style="margin-top:10px">Sindh, town by town</h1>
+    <p style="margin-top:12px;color:var(--ink-2);max-width:60ch">Pick a town on the map to see who lived there and which surnames lead back to it.</p>
+    <div class="arch-grid">
+      <div class="mapbox" id="archMap"></div>
+      <div class="town-card" id="townCard" aria-live="polite"></div>
+    </div>
+    <div class="comm">
+      <span class="eyebrow">Three communities, side by side</span>
+      <h2 style="margin-top:8px">Different work, the same river</h2>
+      <div class="comm-table"><table>
+        <thead><tr><th scope="col"></th><th scope="col">Amils</th><th scope="col">Bhaibands</th><th scope="col">Sahitis</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Centre</th><td>Hyderabad, capital of the Talpur Mirs and of British Sindh</td><td>Hyderabad and Shikarpur, with offices across the world</td><td>The Sahiti Pargana: Naushahro Feroze, Moro, Nawabshah</td></tr>
+          <tr><th scope="row">Work</th><td>Scribes, diplomats, lawyers, judges, teachers</td><td>Global trade (Sindhworkis), financiers, hundi bankers</td><td>Landholding farmers, grain traders, local shopkeepers</td></tr>
+          <tr><th scope="row">Dress</th><td>Western tailored collars, Sufi tunics, silk turbans, saris</td><td>Dhoti and kurta, heavy gold, embroidered lehengas</td><td>Durable, climate-ready clothes with regional needlework</td></tr>
+          <tr><th scope="row">Kitchen</th><td>Seyal: slow-cooked onion and coriander</td><td>Koki and dried snacks that travel well</td><td>Bhee (lotus stem), seasonal greens, dairy</td></tr>
+          <tr><th scope="row">After 1947</th><td>Rebuilt through education, law and government</td><td>Rebuilt from refugee stalls into textile, export and retail</td><td>Small and mid-sized business, plus education for the next generation</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>`;
+  drawArch();
+}
+function drawArch(){
+  $('#archMap').innerHTML = mapSVG({sel:archTown, clickable:true}) + '<div class="mapcap">Tap a town. Schematic, c. 1947.</div>';
+  const t = TOWNS[archTown];
+  $('#townCard').innerHTML = `<span class="eyebrow">${coordStr(t)}</span><h2>${t.n}</h2>
+    <p style="color:var(--ink-2)">${t.d || 'We are still gathering histories from this town. If your family came from here, tell us what you remember.'}</p>
+    ${t.names ? `<span class="eyebrow" style="margin-top:6px">Surnames that lead here</span><div class="names">${t.names.map(n=>`<button data-name="${n}">${n}</button>`).join('')}</div>` : ''}
+    <button class="btn btn-line btn-sm" data-open="contribute" style="justify-self:start;margin-top:8px">My family is from ${t.n.split(' ·')[0]}</button>`;
+}
+
+/* ---------------- CONTRIBUTE ---------------- */
+function contributeForm(name, inline){
+  const townOpts = Object.values(TOWNS).map(t=>`<option>${t.n}</option>`).join('');
+  return `
+  <form data-cform novalidate>
+    <div class="stepper"><span class="on"></span><span></span></div>
+    <div data-step="1">
+      ${inline?'':'<h2 style="margin-right:40px">Add what your family remembers</h2><p style="margin-top:8px;color:var(--ink-2)">Two short steps. A volunteer archivist reviews every entry before it appears.</p>'}
+      <div class="field"><label for="c-name${inline?'-i':''}">Surname</label><input id="c-name${inline?'-i':''}" name="surname" value="${esc(name||'')}" required></div>
+      <div class="field"><label for="c-town${inline?'-i':''}">Town or village before 1947</label>
+        <select id="c-town${inline?'-i':''}" name="town"><option value="">I'm not sure</option>${townOpts}<option>Somewhere else</option></select></div>
+      <div class="field"><label for="c-who${inline?'-i':''}">Who told you?</label>
+        <select id="c-who${inline?'-i':''}" name="who"><option>A grandparent</option><option>A parent</option><option>Another relative</option><option>Family papers</option></select></div>
+      <div class="acts"><button type="button" class="btn btn-ink" data-next>Next</button></div>
+    </div>
+    <div data-step="2" hidden>
+      <div class="field"><label for="c-story${inline?'-i':''}">A memory, a dish, a street name, a song</label>
+        <textarea id="c-story${inline?'-i':''}" name="story" rows="4" placeholder="e.g. Nani talked about the ghats at Rohri, and the koki she made for the train to Bombay."></textarea>
+        <span class="hint">Short is fine. Names of places and people help most.</span></div>
+      <div class="field"><label for="c-audio${inline?'-i':''}">Voice note from a grandparent (optional)</label><input id="c-audio${inline?'-i':''}" type="file" accept="audio/*"></div>
+      <label class="check"><input type="checkbox" name="consent" checked> Show this in the public archive with my first name only.</label>
+      <div class="acts"><button type="button" class="btn btn-line" data-back>Back</button><button type="submit" class="btn btn-madder">Add to the archive</button></div>
+    </div>
+    <div data-step="3" hidden>
+      <h2 style="margin-top:6px">Thank you. It's in the review queue.</h2>
+      <p style="margin-top:10px;color:var(--ink-2)">An archivist will check it against other family accounts, usually within a week. When it's added, the next person who searches this name will see it.</p>
+      <div class="acts"><a class="btn btn-ink" href="#cheti-chand" data-close>See Cheti Chand</a></div>
+    </div>
+  </form>`;
+}
+function bindContribute(root){
+  const f = $('form[data-cform]', root);
+  const show = n => { $$('[data-step]', f).forEach(s=>s.hidden = s.dataset.step != n); $$('.stepper span', f).forEach((s,i)=>s.classList.toggle('on', i < Math.min(n,2))); };
+  $('[data-next]', f).addEventListener('click', () => { const s = f.surname.value.trim(); if (!s){ f.surname.focus(); toast('Add a surname so we know where this story belongs.'); return; } show(2); });
+  $('[data-back]', f).addEventListener('click', () => show(1));
+  f.addEventListener('submit', e => { e.preventDefault(); show(3); });
+}
+
+/* ---------------- MODALS ---------------- */
+const modalRoot = $('#modalRoot');
+let lastFocus = null;
+function openModal(html, wide){
+  lastFocus = document.activeElement;
+  modalRoot.innerHTML = `<div class="scrim" data-scrim><div class="modal${wide?' wide':''}" role="dialog" aria-modal="true"><button class="x" aria-label="Close" data-close>✕</button>${html}</div></div>`;
+  const first = $('.modal input', modalRoot); (first||$('.x',modalRoot)).focus({preventScroll:true});
+}
+function closeModal(){ modalRoot.innerHTML=''; lastFocus && lastFocus.focus && lastFocus.focus(); }
+modalRoot.addEventListener('click', e => { if (e.target.matches('[data-scrim]') || e.target.closest('[data-close]')) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape' && modalRoot.innerHTML) closeModal(); });
+
+function posterSVG(p){
+  const t = TOWNS[p.town];
+  const [px,py] = P(t.lat,t.lon);
+  return `<svg viewBox="0 0 600 800" role="img" aria-label="The Cartography of ${esc(p.name)} print preview">
+    <rect width="600" height="800" fill="#F5EEDC"/>
+    <rect x="0" y="0" width="600" height="30" fill="url(#ajrakP)"/><rect x="0" y="770" width="600" height="30" fill="url(#ajrakP)"/>
+    <text x="40" y="78" style="font:11px var(--f-mono);letter-spacing:.2em;fill:#6A6A72">THE CARTOGRAPHY OF</text>
+    <text x="36" y="160" style="font:700 92px var(--f-display);fill:#141C3A">${esc(p.root)}<tspan fill="#A2321E">${esc(p.suf)}</tspan></text>
+    <g transform="translate(150 190) scale(.95)">
+      <path d="${outlineD}" fill="#EFE4C8" stroke="#141C3A" stroke-width="1.2"/>
+      <path d="${indusD}" fill="none" stroke="#1C5BB5" stroke-width="3.2"/>
+      <circle cx="${px}" cy="${py}" r="16" fill="none" stroke="#A2321E" stroke-width="1.5"/>
+      <circle cx="${px}" cy="${py}" r="6" fill="#A2321E"/>
+    </g>
+    <line x1="40" y1="672" x2="560" y2="672" stroke="#141C3A" stroke-opacity=".2"/>
+    <text x="40" y="700" style="font:12px var(--f-mono);fill:#1C5BB5">${coordStr(t)} · ${esc(t.n.toUpperCase())}</text>
+    <text x="40" y="726" style="font:italic 600 22px var(--f-display);fill:#141C3A">${esc(p.ancestor)} + -${esc(p.suf)} = ${esc(p.result)}</text>
+    <text x="40" y="750" style="font:12px var(--f-ui);fill:#3A4263">${esc(p.community[0])} · ${esc(p.work[0])} · ${esc(p.tongue[0])}</text>
+  </svg>`;
+}
+document.addEventListener('click', e => {
+  const o = e.target.closest('[data-open]');
+  if (o){
+    const kind = o.dataset.open;
+    if (kind==='contribute'){
+      const nm = current ? (current.kind==='path' ? PATHS[current.key].name : current.name) : '';
+      openModal(contributeForm(nm, false)); bindContribute(modalRoot);
+    }
+    if (kind==='poster' && current && current.kind==='path'){
+      const p = PATHS[current.key];
+      openModal(`<h2 style="margin-right:40px">The Cartography of ${esc(p.name)}</h2><p style="margin-top:8px;color:var(--ink-2)">Your lineage as an archival print. 18 × 24 in, cotton rag, printed in indigo and madder.</p>
+        <div class="poster" style="margin-top:18px">${posterSVG(p)}</div>
+        <div class="acts"><button class="btn btn-line" data-close>Not now</button><button class="btn btn-ink" id="orderBtn">Order print · ₹2,400</button></div>`, true);
+      $('#orderBtn').addEventListener('click', () => { closeModal(); toast('Prototype: checkout would open here.'); });
+    }
+    return;
+  }
+  const go = e.target.closest('[data-go]'); if (go){ location.hash = go.dataset.go; return; }
+  const tn = e.target.closest('[data-town]');
+  if (tn){ if (location.hash==='#archive'){ archTown = tn.dataset.town; drawArch(); } else { archTown = tn.dataset.town; location.hash='archive'; } return; }
+  const nb = e.target.closest('#townCard [data-name]'); if (nb){ trace(nb.dataset.name); return; }
+  const v = e.target.closest('[data-verify]');
+  if (v){
+    const box = $('#verify'); const t = TOWNS[PATHS[current.key].town].n;
+    if (v.dataset.verify==='yes') box.innerHTML = `<h3>Thank you. ${esc(t)} is confirmed for your family.</h3><p class="done">Each confirmation makes this reading more reliable for the next ${esc(PATHS[current.key].name)}.</p>`;
+    if (v.dataset.verify==='no') box.innerHTML = `<h3>Where did your family say they were from?</h3><div class="row"><select id="altTown" aria-label="Town">${Object.values(TOWNS).map(x=>`<option>${x.n}</option>`).join('')}<option>Somewhere else</option></select><button class="btn btn-ink btn-sm" data-verify="save">Save</button></div>`;
+    if (v.dataset.verify==='save') box.innerHTML = `<h3>Saved: ${esc($('#altTown') ? $('#altTown').value : '')}.</h3><p class="done">We'll show your town as another known origin once an archivist reviews it. <button class="btn btn-line btn-sm" data-open="contribute" style="margin-left:6px">Add the story behind it</button></p>`;
+    if (v.dataset.verify==='unsure') box.innerHTML = `<h3>That's common. Many families stopped talking about it.</h3><p class="done">Try asking an elder one question: “Which ghat or bazaar do you remember?” <button class="btn btn-line btn-sm" data-open="contribute" style="margin-left:6px">Record the answer</button></p>`;
+    return;
+  }
+  const w = e.target.closest('[data-wave]'); if (w){ setWave(w.dataset.wave); return; }
+  const it = e.target.closest('[data-item]'); if (it){ setRitual(it.dataset.item); return; }
+});
+document.addEventListener('keydown', e => {
+  if ((e.key==='Enter'||e.key===' ') && e.target.matches('.hot,[data-town][role="button"]')){ e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click',{bubbles:true})); }
+});
+
+let toastT;
+function toast(msg){ clearTimeout(toastT); $('#toastRoot').innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; toastT = setTimeout(()=>{$('#toastRoot').innerHTML='';}, 3200); }
+
+/* ---------------- ROUTER ---------------- */
+const VIEWS = {home:'#v-home', read:'#v-read', unknown:'#v-unknown', fest:'#v-fest', arch:'#v-arch'};
+function show(v){ for (const [k,s] of Object.entries(VIEWS)) $(s).hidden = k!==v; }
+function route(){
+  const h = (location.hash || '#home').slice(1);
+  if (h.startsWith('ch-')) return; // in-page chapter anchors
+  let nav = 'home';
+  if (PATHS[h]){ current = {kind:'path', key:h}; renderRead(h); show('read'); }
+  else if (h==='unrecorded'){ renderUnknown(); show('unknown'); }
+  else if (h==='cheti-chand'){ renderFest(); show('fest'); nav='cheti-chand'; }
+  else if (h==='archive'){ renderArch(); show('arch'); nav='archive'; }
+  else { show('home'); }
+  $$('[data-nav]').forEach(a => { if (a.dataset.nav===nav) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  window.scrollTo(0,0);
+}
+document.addEventListener('click', e => {
+  const r = e.target.closest('a[data-rail]'); if (!r) return;
+  e.preventDefault(); const el = document.getElementById(r.getAttribute('href').slice(1)); el && el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto':'smooth'});
+});
+window.addEventListener('hashchange', route);
+route();
+
+/* ---------------- RIVER CANVAS ---------------- */
+const cv = $('#river'), ctx = cv.getContext('2d');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let W=0,H=0,dpr=1,parts=[],mouse={x:-999,y:-999};
+function size(){ const r = cv.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio||1); W=r.width; H=r.height; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  parts = Array.from({length: Math.round(W*H/5200)}, () => ({x:Math.random()*W, y:Math.random()*H, life:Math.random()*200}));
+  ctx.fillStyle='#F5EEDC'; ctx.fillRect(0,0,W,H); }
+function field(x,y,t){ return 0.62 + 0.35*Math.sin(x*0.004 + t*0.0004) * Math.cos(y*0.006 - t*0.0003); }
+function step(t){
+  ctx.fillStyle='rgba(245,238,220,0.085)'; ctx.fillRect(0,0,W,H);
+  ctx.lineWidth=1.1;
+  for (const p of parts){
+    const a = field(p.x,p.y,t); let vx = Math.cos(a)*1.1, vy = Math.sin(a)*1.1;
+    const dx = p.x-mouse.x, dy = p.y-mouse.y, d2 = dx*dx+dy*dy;
+    if (d2 < 14000){ const f = (14000-d2)/14000*2.2; vx += dy/120*f; vy -= dx/120*f; }
+    const nx = p.x+vx, ny = p.y+vy;
+    const fade = Math.min(1, p.life/40);
+    ctx.strokeStyle = `rgba(28,91,181,${0.32*fade})`;
+    ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(nx,ny); ctx.stroke();
+    p.x=nx; p.y=ny; p.life++;
+    if (p.x>W+5||p.y>H+5||p.x<-5||p.y<-5||p.life>320){ p.x=Math.random()*W*0.8 - W*0.1; p.y=Math.random()*H*0.6 - H*0.2; if (p.y<0) p.y=Math.random()*H; p.life=0; }
+  }
+}
+function loop(t){ if (!$('#v-home').hidden) step(t); requestAnimationFrame(loop); }
+size(); window.addEventListener('resize', size);
+$('.hero').addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX-r.left; mouse.y = e.clientY-r.top; });
+$('.hero').addEventListener('pointerleave', () => { mouse.x = mouse.y = -999; });
+if (reduce){ for (let i=0;i<260;i++) step(i*16); } else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
